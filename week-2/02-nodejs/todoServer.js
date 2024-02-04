@@ -39,11 +39,79 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let todos = [];
+
+app.get("/todos", (req, res) => {
+  res.status(200).json(todos);
+});
+
+app.post("/todos", (req, res) => {
+  let { title, description, completed } = req.body;
+  try {
+    let newTodo = {
+      id: Math.floor(Math.random() * 1000000),
+      title,
+      description,
+      completed,
+    };
+    todos.push(newTodo);
+    res.status(201).json(newTodo);
+  } catch (e) {
+    res.status(404).json("Some Error occured");
+  }
+});
+
+app.get("/todos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+
+  let todo = todos.find((t) => t.id === id);
+
+  if (todo) {
+    res.status(200).json(todo);
+  } else {
+    res.status(404).json({ message: "Not found" });
+  }
+});
+
+app.put("/todos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  let updateMe = req.body;
+
+  let index = todos.findIndex((t) => t.id === id);
+
+  if (index !== -1) {
+    todos[index].title = updateMe.title;
+    todos[index].completed = updateMe.completed;
+
+    res.status(200).json({ message: "Todo updated successfully" });
+  } else {
+    res.status(404).json({ message: "Todo not found" });
+  }
+});
+
+app.delete("/todos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+
+  let index = todos.findIndex((t) => t.id === id);
+
+  if (index !== -1) {
+    todos.splice(index, 1);
+
+    res.status(200).json({ message: "Todo deleted successfully" });
+  } else {
+    res.status(404).json({ message: "Todo not found" });
+  }
+});
+
+app.all("*", (req, res) => {
+  res.status(404).send("abc");
+});
+
+module.exports = app;
