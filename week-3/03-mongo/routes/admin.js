@@ -13,7 +13,7 @@ router.post("/signup", async (req, res) => {
       return res.status(404).send("Username already exist");
     }
     const newAdmin = await Admin.create({
-      username: username,
+      email: username,
       password: password,
     });
     if (newAdmin) {
