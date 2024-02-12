@@ -16,7 +16,6 @@ router.post("/signup", async (req, res) => {
 
   const existingAdmin = await Admin.findOne({
     username: username,
-    password: password,
   });
 
   if (existingAdmin) {
@@ -94,13 +93,11 @@ router.get("/courses", adminMiddleware, async (req, res) => {
   try {
     const courses = await Course.find({});
 
-    res
-      .status(200)
-      .json({
-        message: "Courses fetched successfully",
-        numberOfCourses: courses.length,
-        courses: courses,
-      });
+    res.status(200).json({
+      message: "Courses fetched successfully",
+      numberOfCourses: courses.length,
+      courses: courses,
+    });
   } catch (error) {
     res.status(500).send({ message: "try again, some error occured" });
   }
