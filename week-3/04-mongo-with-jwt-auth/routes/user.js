@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const userMiddleware = require("../middleware/user");
-const { User } = require("../db");
+const { User, Course } = require("../db");
 const jwt = require("jsonwebtoken");
 
 // User Routes
@@ -68,8 +68,18 @@ router.post("/signin", async (req, res) => {
 });
 
 router.get("/courses", userMiddleware, async (req, res) => {
-  // Implement listing all courses logic
-  res.send({ message: "yess" });
+  // Implement listing all courses
+  try {
+    const courses = await Course.find({});
+
+    res.send({
+      message: "Courses fetched successfully",
+      numberOfCourses: courses.length,
+      courses: courses,
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
 });
 
 router.post("/courses/:courseId", userMiddleware, (req, res) => {
