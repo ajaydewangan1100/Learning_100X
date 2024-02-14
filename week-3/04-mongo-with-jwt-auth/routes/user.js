@@ -59,8 +59,6 @@ router.post("/signin", async (req, res) => {
       "secret123"
     );
 
-    console.log(token);
-
     if (token) {
       res.status(200).json({ message: "Logged in successfully", token: token });
     }
@@ -69,8 +67,9 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.get("/courses", (req, res) => {
+router.get("/courses", userMiddleware, async (req, res) => {
   // Implement listing all courses logic
+  res.send({ message: "yess" });
 });
 
 router.post("/courses/:courseId", userMiddleware, (req, res) => {
