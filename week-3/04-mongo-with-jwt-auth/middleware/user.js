@@ -20,6 +20,7 @@ async function userMiddleware(req, res, next) {
       password: decoded.password,
     });
     if (existingUser) {
+      req.userDetails = existingUser;
       next();
     }
   } catch (error) {

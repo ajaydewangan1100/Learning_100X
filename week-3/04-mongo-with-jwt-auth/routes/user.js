@@ -3,6 +3,7 @@ const router = Router();
 const userMiddleware = require("../middleware/user");
 const { User, Course } = require("../db");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 // User Routes
 router.post("/signup", async (req, res) => {
@@ -82,8 +83,38 @@ router.get("/courses", userMiddleware, async (req, res) => {
   }
 });
 
-router.post("/courses/:courseId", userMiddleware, (req, res) => {
+router.post("/courses/:courseId", userMiddleware, async (req, res) => {
   // Implement course purchase logic
+  const { courseId } = req.params;
+  if (!courseId) {
+    res.status(404).send({ message: "CourseId required" });
+  }
+
+  try {
+    const purchasedCourse = await Course.findById(courseId);
+
+    if (!purchasedCourse) {
+      return res
+        .status(404)
+        .send({ message: "Course not found with given courseId" });
+    }
+
+    await User.updateOne(
+      {
+        username: req.userDetails.username,
+        purchasedCourses: { $ne: courseId },
+      },
+      {
+        $push: {
+          purchasedCourses: courseId,
+        },
+      }
+    );
+
+    res.status(200).send({ message: "Course purchased successfully" });
+  } catch (error) {
+    res.status(404).send({ message: error.message });
+  }
 });
 
 router.get("/purchasedCourses", userMiddleware, (req, res) => {
