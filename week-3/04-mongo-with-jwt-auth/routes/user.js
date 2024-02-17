@@ -117,8 +117,29 @@ router.post("/courses/:courseId", userMiddleware, async (req, res) => {
   }
 });
 
-router.get("/purchasedCourses", userMiddleware, (req, res) => {
+router.get("/purchasedCourses", userMiddleware, async (req, res) => {
   // Implement fetching purchased courses logic
+  try {
+    const user = await User.findOne({ username: req.userDetails.username });
+
+    // const courses = await user.purchasedCourses.forEach(async (c) => {
+    //   const abc = await Course.findById(c);
+    //   return abc;
+    // });
+
+    const courses = await Course.find({
+      _id: {
+        $in: user.purchasedCourses,
+      },
+    });
+
+    res.status(200).json({
+      message: "Courses fetched successfully",
+      courses: courses,
+    });
+  } catch (error) {
+    res.status(500).send({ message: "Some error occured, try again" });
+  }
 });
 
 module.exports = router;
