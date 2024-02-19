@@ -29,8 +29,27 @@
       const deleted = [];
       const updated = [];
       // calculate these 3 arrays
+      newTodos.forEach(newTodo => {
+        const oldTodoIndex = oldTodoState.findIndex(todo => newTodo.id === todo.id);
+
+        if(oldTodoIndex === -1){
+          added.push(newTodo);
+        }else {
+          const oldTodo = oldTodoState[oldTodoIndex];
+          if(newTodo.title !== oldTodo.title || newTodo.description !== oldTodo.description) {
+            updated.push(newTodo);
+          }
+          oldTodoState.splice(oldTodoIndex, 1);
+        }
+      });
+
+      deleted.push(...oldTodoState);
       // call addTodo, removeTodo, updateTodo functions on each of the
       // elements
+      added.forEach(todo => addTodoToDom(todo));
+      deleted.forEach(todo => removeTodoFromDom(todo.id));
+      updated.forEach(todo => updateTodoInDom(todoState.find(t => t.id === todo.id), todo));
+
       oldTodoState = newTodos;
     }
 
