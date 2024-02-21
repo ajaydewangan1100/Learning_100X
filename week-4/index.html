@@ -21,8 +21,10 @@
       todoList.appendChild(todoItem);
     }
 
-    function removeTodoFromDom(todo) {
-      
+    function removeTodoFromDom(todoId) {
+      const todoList = document.getElementById("todos");
+      const todoItem = document.getElementById(`todo_${todoId}`);
+      todoList.removeChild(todoItem);
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
