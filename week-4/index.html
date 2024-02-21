@@ -21,9 +21,9 @@
       todoList.appendChild(todoItem);
     }
 
-    function removeTodoFromDom(todoId) {
+    function removeTodoFromDom(todo) {
       const todoList = document.getElementById("todos");
-      const todoItem = document.getElementById(`todo_${todoId}`);
+      const todoItem = document.getElementById(`todo_${todo.id}`);
       todoList.removeChild(todoItem);
     }
 
