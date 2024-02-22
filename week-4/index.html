@@ -28,7 +28,14 @@
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
-        
+      const todoItem = document.getElementById(`todo_${oldTodo.id}`);
+      todoItem.innerHTML = `
+        <p><strong>Title:</strong> ${newTodo.title}</p>
+        <p><strong>Description:</strong> ${newTodo.description}</p>
+        <button onclick="removeTodoFromDom(${newTodo.id})">Remove</button>
+        <button onclick="updateTodo(${newTodo.id})">Update</button>
+        <hr>
+      `;
     }
 
     function updateState(newTodos) {
