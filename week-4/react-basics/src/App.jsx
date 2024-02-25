@@ -1,35 +1,74 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todo, setTodo] = useState({
+    id: undefined,
+    title: "",
+    description: "",
+    completed: false;
+  });
+  const [todos, setTodos] = useState([]);
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setTodo({ ...todo, [name]: value });
+  }
+
+  function todoDone (id) {
+    const i = todos.findIndex((to) => id === to.id);
+    // do things here
+  }
+
+  function addTodo(e) {
+    // e.preventDefault();
+    if (!todo.title.trim() || !todo.description.trim()) return;
+
+    const newTodo = {
+      ...todo,
+      id: Math.random().toString(),
+    };
+    // setTodo({ ...todo, id: Math.floor(Math.random() * 1000000).toString() });
+    setTodos([...todos, newTodo]);
+    console.log(newTodo);
+
+    setTodo({ id: "", title: "", description: "" });
+  }
 
   return (
-    <>
+    <div>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          onChange={handleChange}
+          value={todo.title}
+        />
+        <br />
+        <br />
+        <input
+          type="text"
+          name="description"
+          id="description"
+          onChange={handleChange}
+          value={todo.description}
+        />
+        <br />
+        <br />
+        <button onClick={addTodo}>Add ToDo</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      {todos.map((todo) => {
+        return (
+          <div key={todo.id} className="todoContainer">
+            <b>{todo.title}</b> <br />
+            <span>{todo.description}</span> <br />
+            <button onClick={() => todoDone(todo.id)}>Mark as complete</button>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
-export default App
+export default App;
