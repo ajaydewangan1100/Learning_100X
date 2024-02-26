@@ -3,10 +3,8 @@ import "./App.css";
 
 function App() {
   const [todo, setTodo] = useState({
-    id: undefined,
     title: "",
     description: "",
-    completed: false;
   });
   const [todos, setTodos] = useState([]);
 
@@ -15,9 +13,19 @@ function App() {
     setTodo({ ...todo, [name]: value });
   }
 
-  function todoDone (id) {
-    const i = todos.findIndex((to) => id === to.id);
-    // do things here
+  function todoDone(id) {
+    // const i = todos.findIndex((to) => id === to.id);
+    const idx = todos.findIndex((t) => t.id === id);
+
+    const updated = todos.map((t) => {
+      if (t.id === id) {
+        return { ...t, completed: true };
+      }
+      return t;
+    });
+    console.log(updated);
+
+    setTodos(updated);
   }
 
   function addTodo(e) {
@@ -27,12 +35,13 @@ function App() {
     const newTodo = {
       ...todo,
       id: Math.random().toString(),
+      completed: false,
     };
-    // setTodo({ ...todo, id: Math.floor(Math.random() * 1000000).toString() });
+
     setTodos([...todos, newTodo]);
     console.log(newTodo);
 
-    setTodo({ id: "", title: "", description: "" });
+    setTodo({ id: "", title: "", description: "", completed: false });
   }
 
   return (
@@ -63,7 +72,11 @@ function App() {
           <div key={todo.id} className="todoContainer">
             <b>{todo.title}</b> <br />
             <span>{todo.description}</span> <br />
-            <button onClick={() => todoDone(todo.id)}>Mark as complete</button>
+            {todo.completed ? (
+              <button>Done</button>
+            ) : (
+              <button onClick={() => todoDone(todo.id)}>Ark as complete</button>
+            )}
           </div>
         );
       })}
