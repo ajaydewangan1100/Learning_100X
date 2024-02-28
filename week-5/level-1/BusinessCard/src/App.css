@@ -1,0 +1,22 @@
+
+body{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main_container {
+  padding: 5px;
+  background: rgb(227, 227, 227);
+  border-radius: 5px;
+  color: black;
+}
+.container {
+  width: 450px;
+  border: 2px solid gray;
+  border-radius: 5px;
+  padding: 20px;
+  background: rgb(227, 227, 227);
+  margin: 5px;
+}
