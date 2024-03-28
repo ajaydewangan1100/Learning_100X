@@ -3,23 +3,31 @@
 In this assignment, you'll be writing a bunch of SQL queries to interact with your postgres database.
 
 ## Pre-requisites
-Before you start, please grab a Postgres URL from either of the following - 
- - https://neon.tech/
- - https://aiven.io/
+
+Before you start, please grab a Postgres URL from either of the following -
+
+- https://neon.tech/
+- https://aiven.io/
+- https://supabase.com/
 
 and put it in config.ts
 
 ## Assignment
-You are supposed to write the `database` part of an full stack app. 
-Specifically, you need to fill the functions in 
- - src/db/user.ts
- - src/db/todo.ts
+
+You are supposed to write the `database` part of an full stack app.
+Specifically, you need to fill the functions in
+
+- src/db/user.ts
+- src/db/todo.ts
 
 ## Testing
+
 Run `npm run test` to run all the tests
 
 ## Call out
-The schema of the tables looks like this - 
+
+The schema of the tables looks like this -
+
 ```
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -35,3 +43,5 @@ The schema of the tables looks like this -
         done BOOLEAN DEFAULT false
     );
 ```
+
+DB_PASS (Supabase - assignment week10) - Q2tDv5PMXrJuPqr
